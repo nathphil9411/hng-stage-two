@@ -23,7 +23,7 @@ describe("Authentication Endpoints", () => {
         .expect(422);
 
       expect(response.body.errors).toBeDefined();
-      expect(response.body.errors).toHaveLength(4); // Assuming firstName, lastName, email, password are required
+      expect(response.body.errors).toHaveLength(4);
     });
 
     it("should register a new user successfully", async () => {
