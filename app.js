@@ -14,8 +14,6 @@ app.use(express.json());
 //router
 app.use(router);
 
-//app.use(ErrorHandler);
-
 app.all("*", (req, res, next) => {
   res.status(404).json({
     status: "Not Found",

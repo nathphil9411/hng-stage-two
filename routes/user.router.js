@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const authenticate = require("../middlewares/authenticate");
 const userController = require("../controllers/user.controller");
 
-router.get("/:id", userController.getUserById); // Example protected route
-// Add more routes as needed
+router.get("/:id", authenticate, userController.getUserById);
+
 
 module.exports = router;
