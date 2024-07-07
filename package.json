@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node server.js",
+    "migrate:deploy": "prisma migrate deploy",
     "dev": "nodemon server.js"
   },
   "keywords": [],
