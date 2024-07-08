@@ -15,7 +15,6 @@ const AuthController = {
           firstName,
           lastName,
           email,
-          password: hashedPassword,
           phone,
           orgs: {
             create: [
@@ -51,10 +50,11 @@ const AuthController = {
     } catch (error) {
       //Duplicate email error.
       if (error.code === "P2002" && error.meta.target.includes("email")) {
-        return res
-          .status(422)
-          .json({ message: "User with this email already exists" });
-      }
+        return res.status(400).json({
+        status: "Bad request",
+        message: "Registration unsuccessful",
+        statusCode: 400
+      });
       console.error("Error registering user:", error);
       res.status(400).json({
         status: "Bad request",
