@@ -55,7 +55,7 @@ const OrganisationController = {
         data: { name, description }
       });
 
-
+      // Associate the logged-in user with the newly created organisation
       await prisma.organisationOnUser.create({
         data: {
           userId: loggedInUserId,
@@ -78,6 +78,7 @@ const OrganisationController = {
       });
     }
   },
+
   addUserToOrganisation: async (req, res) => {
     const { userId } = req.body;
     const { orgId } = req.params;
@@ -85,14 +86,14 @@ const OrganisationController = {
     try {
       const user = await prisma.user.findUnique({ where: { userId } });
       if (!user) {
-        throw new ResourceNotFound("User not found");
+        throw new Error("User not found");
       }
 
       const organisation = await prisma.organisation.findUnique({
         where: { orgId }
       });
       if (!organisation) {
-        throw new ResourceNotFound("Organisation not found");
+        throw new Error("Organisation not found");
       }
 
       await prisma.organisationOnUser.create({
