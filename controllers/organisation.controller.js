@@ -55,7 +55,6 @@ const OrganisationController = {
         data: { name, description }
       });
 
-      // Associate the logged-in user with the newly created organisation
       await prisma.organisationOnUser.create({
         data: {
           userId: loggedInUserId,
