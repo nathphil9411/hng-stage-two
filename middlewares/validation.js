@@ -13,16 +13,16 @@ const validate = (schema) => (req, res, next) => {
 };
 
 const registerSchema = Joi.object({
-  firstName: Joi.string().min(3).max(30).required(),
-  lastName: Joi.string().min(3).max(30).required(),
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
   email: Joi.string().email().required(),
-  password: Joi.string().min(6).max(30).required(),
+  password: Joi.string().required(),
   phone: Joi.string().optional()
 });
 
 const loginSchema = Joi.object({
   email: Joi.string().email().required(),
-  password: Joi.string().min(6).max(30).required()
+  password: Joi.string().required()
 });
 const createOrgSchema = Joi.object({
   name: Joi.string().required(),
