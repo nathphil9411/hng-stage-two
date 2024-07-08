@@ -20,6 +20,7 @@ router.post(
 router.post(
   "/:orgId/users",
   validate(addUserToOrganisationSchema),
+  authenticate,
   organisationController.addUserToOrganisation
 );
 
