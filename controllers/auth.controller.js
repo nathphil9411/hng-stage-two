@@ -15,6 +15,7 @@ const AuthController = {
           firstName,
           lastName,
           email,
+          password: hashedPassword, // Store the hashed password
           phone,
           orgs: {
             create: [
@@ -31,7 +32,8 @@ const AuthController = {
           firstName: true,
           lastName: true,
           email: true,
-          phone: true
+          phone: true,
+          password: false
         }
       });
 
@@ -48,13 +50,14 @@ const AuthController = {
         data: { accessToken, user }
       });
     } catch (error) {
-      //Duplicate email error.
+      // Duplicate email error.
       if (error.code === "P2002" && error.meta.target.includes("email")) {
         return res.status(400).json({
-        status: "Bad request",
-        message: "Registration unsuccessful",
-        statusCode: 400
-      });
+          status: "Bad request",
+          message: "Registration unsuccessful",
+          statusCode: 400
+        });
+      }
       console.error("Error registering user:", error);
       res.status(400).json({
         status: "Bad request",
@@ -70,25 +73,21 @@ const AuthController = {
       // Check if user exists
       const user = await prisma.user.findUnique({ where: { email } });
       if (!user) {
-        return res
-          .status(401)
-          .json({
-            status: "Bad request",
-            message: "Authentication failed",
-            statusCode: 401
-          });
+        return res.status(401).json({
+          status: "Bad request",
+          message: "Authentication failed",
+          statusCode: 401
+        });
       }
 
       // Verify password
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
-        return res
-          .status(401)
-          .json({
-            status: "Bad request",
-            message: "Authentication failed",
-            statusCode: 401
-          });
+        return res.status(401).json({
+          status: "Bad request",
+          message: "Authentication failed",
+          statusCode: 401
+        });
       }
 
       // Generate JWT token
@@ -105,13 +104,11 @@ const AuthController = {
       });
     } catch (error) {
       console.error("Error logging in user:", error);
-      res
-        .status(400)
-        .json({
-          status: "Bad request",
-          message: "Authentication failed",
-          statusCode: 401
-        });
+      res.status(400).json({
+        status: "Bad request",
+        message: "Authentication failed",
+        statusCode: 401
+      });
     }
   }
 };
